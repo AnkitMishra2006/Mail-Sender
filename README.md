@@ -14,6 +14,17 @@ A simple, lightweight email sending API built with Node.js and Express. Just pro
 - **🔒 Security**: Helmet, CORS, and input sanitization included
 - **⚙️ Easy Configuration**: Works with Gmail, Outlook, and custom SMTP servers
 - **☁️ Serverless**: Deployed on Vercel for global availability and performance
+- **🖥️ Dual Interface**: JSON API for developers, HTML UI for browsers
+
+## 🌐 **Live API Documentation**
+
+Visit **[https://mail-sender-snowy.vercel.app](https://mail-sender-snowy.vercel.app)** in your browser to see:
+
+- 📊 **Interactive API Documentation** with live examples
+- 🧪 **Built-in Testing Interface** - test emails directly from the browser
+- 📱 **Responsive Design** - works on desktop, tablet, and mobile
+- 🎯 **Real-time Examples** with your deployed API endpoints
+- 📋 **Copy-paste code snippets** in multiple languages
 
 ## 🚀 Quick Start
 
@@ -76,9 +87,18 @@ The app is deployed and ready to use! Visit the interactive documentation:
 
 ## 📧 API Usage
 
+### **Live API Endpoints:**
+
+| Endpoint          | Method | Description                  | Live URL                                                           |
+| ----------------- | ------ | ---------------------------- | ------------------------------------------------------------------ |
+| `/`               | GET    | Interactive UI Documentation | [🌐 Open UI](https://mail-sender-snowy.vercel.app)                 |
+| `/api/send-email` | POST   | Send an email                | `https://mail-sender-snowy.vercel.app/api/send-email`              |
+| `/api/health`     | GET    | Health check                 | [🔍 Check Status](https://mail-sender-snowy.vercel.app/api/health) |
+| `/api/test`       | GET    | Test email configuration     | [🧪 Test Config](https://mail-sender-snowy.vercel.app/api/test)    |
+
 ### Send Email
 
-**Endpoint:** `POST /api/send-email`
+**Endpoint:** `POST https://mail-sender-snowy.vercel.app/api/send-email`
 
 **Required Parameters:**
 
@@ -92,7 +112,7 @@ The app is deployed and ready to use! Visit the interactive documentation:
 **Example:**
 
 ```javascript
-// Using fetch
+// Using fetch with live API
 const response = await fetch(
   "https://mail-sender-snowy.vercel.app/api/send-email",
   {
@@ -276,31 +296,68 @@ curl https://mail-sender-snowy.vercel.app/api/health
 - **Helmet**: Security headers middleware
 - **Input Sanitization**: Prevents injection attacks
 
-## � Troubleshooting
+## 🔍 Troubleshooting
 
 **Common Issues:**
 
-1. **"Email configuration failed"**
+### **1. 404 NOT_FOUND Error**
 
-   - Check your email credentials
-   - Verify 2FA is enabled for Gmail
-   - Ensure App Password is correct
+- **Cause:** Vercel can't find the `views/api-docs.html` file
+- **Solution:** Ensure `vercel.json` includes `"includeFiles": "views/**"`
+- **Fix:** Redeploy after updating `vercel.json`
 
-2. **"Validation failed"**
+### **2. "Email configuration failed"**
 
-   - Check email format is valid
-   - Ensure email content is not empty
-   - Subject line should be under 200 characters
+- Check your email credentials in Vercel environment variables
+- Verify 2FA is enabled for Gmail
+- Ensure App Password is correct (not your regular password)
+- Test with: [🧪 Test Config](https://mail-sender-snowy.vercel.app/api/test)
 
-3. **"Too many email requests"**
+### **3. "Validation failed"**
 
-   - Rate limit reached (10 emails per 15 minutes)
-   - Wait or adjust rate limiting settings
+- Check email format is valid
+- Ensure email content is not empty
+- Subject line should be under 200 characters
+- Use the [🌐 Interactive UI](https://mail-sender-snowy.vercel.app) to test
 
-4. **Connection timeout**
-   - Check internet connection
-   - Verify SMTP settings
-   - Check firewall settings
+### **4. "Too many email requests"**
+
+- Rate limit reached (10 emails per 15 minutes per IP)
+- Wait 15 minutes or use different IP
+- Check current limits in the UI
+
+### **5. UI Not Loading**
+
+- Clear browser cache and cookies
+- Try incognito/private browsing mode
+- Check if [🔍 Health Check](https://mail-sender-snowy.vercel.app/api/health) works
+
+### **6. CORS Issues**
+
+- App includes CORS middleware for all origins
+- If using from a specific domain, headers should work automatically
+- Test API calls from the browser UI first
+
+## 🚀 **Fix Deployment Issue**
+
+If you're seeing a 404 error, you need to redeploy with the updated `vercel.json`:
+
+### **Quick Fix Steps:**
+
+1. **Commit the updated files:**
+
+   ```bash
+   git add .
+   git commit -m "Fix 404: Include views folder in Vercel deployment"
+   git push origin main
+   ```
+
+2. **Vercel will auto-redeploy** (if connected to GitHub)
+3. **Or manually redeploy:** Go to Vercel dashboard → Redeploy
+
+4. **Verify fix:** Visit [https://mail-sender-snowy.vercel.app](https://mail-sender-snowy.vercel.app)
+
+---
 
 ## 🚀 Deployment
 
