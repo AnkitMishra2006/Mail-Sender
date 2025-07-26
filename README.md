@@ -52,6 +52,16 @@ npm start
 
 The app will run on `http://localhost:3000`
 
+## 🌐 **Live Demo**
+
+The app is deployed and ready to use at: **https://mail-sender-snowy.vercel.app**
+
+**Try it now:**
+
+- 📖 **API Documentation:** https://mail-sender-snowy.vercel.app/
+- ❤️ **Health Check:** https://mail-sender-snowy.vercel.app/api/health
+- 🔧 **Test Email Config:** https://mail-sender-snowy.vercel.app/api/test
+
 ## 📧 API Usage
 
 ### Send Email
@@ -71,15 +81,18 @@ The app will run on `http://localhost:3000`
 
 ```javascript
 // Using fetch
-const response = await fetch("http://localhost:3000/api/send-email", {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({
-    toEmail: "recipient@example.com",
-    emailContent: "<h1>Hello!</h1><p>This is a test email.</p>",
-    subject: "Test Email",
-  }),
-});
+const response = await fetch(
+  "https://mail-sender-snowy.vercel.app/api/send-email",
+  {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      toEmail: "recipient@example.com",
+      emailContent: "<h1>Hello!</h1><p>This is a test email.</p>",
+      subject: "Test Email",
+    }),
+  }
+);
 
 const result = await response.json();
 console.log(result);
@@ -112,11 +125,14 @@ console.log(result);
 ```javascript
 const sendEmail = async (toEmail, emailContent, subject) => {
   try {
-    const response = await fetch("http://localhost:3000/api/send-email", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ toEmail, emailContent, subject }),
-    });
+    const response = await fetch(
+      "https://mail-sender-snowy.vercel.app/api/send-email",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ toEmail, emailContent, subject }),
+      }
+    );
     return await response.json();
   } catch (error) {
     console.error("Error:", error);
@@ -196,13 +212,13 @@ Default: 10 emails per 15 minutes per IP. To modify, edit the `emailLimiter` con
 ### Test Configuration
 
 ```bash
-curl http://localhost:3000/api/test
+curl https://mail-sender-snowy.vercel.app/api/test
 ```
 
 ### Test Email Sending
 
 ```bash
-curl -X POST http://localhost:3000/api/send-email \
+curl -X POST https://mail-sender-snowy.vercel.app/api/send-email \
   -H "Content-Type: application/json" \
   -d '{
     "toEmail": "test@example.com",
@@ -214,7 +230,7 @@ curl -X POST http://localhost:3000/api/send-email \
 ### Health Check
 
 ```bash
-curl http://localhost:3000/api/health
+curl https://mail-sender-snowy.vercel.app/api/health
 ```
 
 ## 🛡️ Security Features

@@ -186,11 +186,16 @@ app.use("*", (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`🚀 Email Sender App is running on port ${PORT}`);
-  console.log(`📧 API Documentation: http://localhost:${PORT}/`);
-  console.log(`❤️  Health check: http://localhost:${PORT}/api/health`);
-  console.log(`🔧 Email test: http://localhost:${PORT}/api/test`);
-  console.log(`📮 Send email: POST http://localhost:${PORT}/api/send-email`);
+  const baseUrl =
+    process.env.NODE_ENV === "production"
+      ? "https://mail-sender-snowy.vercel.app"
+      : `http://localhost:${PORT}`;
+
+  console.log(`🚀 Email Sender App is running`);
+  console.log(`📧 API Documentation: ${baseUrl}/`);
+  console.log(`❤️  Health check: ${baseUrl}/api/health`);
+  console.log(`🔧 Email test: ${baseUrl}/api/test`);
+  console.log(`📮 Send email: POST ${baseUrl}/api/send-email`);
 });
 
 module.exports = app;

@@ -1,9 +1,12 @@
 // Email Sender App - Usage Examples
 
+// Base URL - change this for different environments
+const BASE_URL = "https://mail-sender-snowy.vercel.app";
+
 // Example 1: Basic email sending with fetch
 const sendEmail = async (toEmail, emailContent, subject = null) => {
   try {
-    const response = await fetch("http://localhost:3000/api/send-email", {
+    const response = await fetch(`${BASE_URL}/api/send-email`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
