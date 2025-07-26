@@ -5,6 +5,8 @@ const cors = require("cors");
 const rateLimit = require("express-rate-limit");
 const helmet = require("helmet");
 const { body, validationResult } = require("express-validator");
+const fs = require("fs");
+const path = require("path");
 require("dotenv").config();
 
 const app = express();
@@ -146,26 +148,52 @@ app.get("/api/health", (req, res) => {
 
 // API documentation route
 app.get("/", (req, res) => {
-  res.json({
-    name: "Email Sender App",
-    version: "1.0.0",
-    description:
-      "Simple email sender API - just provide recipient email and content",
-    endpoints: {
-      "POST /api/send-email": {
-        description: "Send an email",
-        required: ["toEmail", "emailContent"],
-        optional: ["subject"],
-        example: {
-          toEmail: "recipient@example.com",
-          emailContent: "Your email content here (can include HTML)",
-          subject: "Optional subject line",
+  // Check if request is from a browser (HTML) or API call (JSON)
+  const acceptsHtml =
+    req.headers.accept && req.headers.accept.includes("text/html");
+
+  if (acceptsHtml) {
+    // Return HTML UI for browsers
+    try {
+      const htmlPath = path.join(__dirname, "views", "api-docs.html");
+      let htmlContent = fs.readFileSync(htmlPath, "utf8");
+
+      // Replace placeholder with actual base URL
+      const baseUrl =
+        process.env.NODE_ENV === "production"
+          ? "https://mail-sender-snowy.vercel.app"
+          : `http://localhost:${PORT}`;
+
+      htmlContent = htmlContent.replace(/{{BASE_URL}}/g, baseUrl);
+
+      res.send(htmlContent);
+    } catch (error) {
+      console.error("Error reading HTML template:", error);
+      res.status(500).send("Error loading documentation page");
+    }
+  } else {
+    // Return JSON for API calls
+    res.json({
+      name: "Email Sender App",
+      version: "1.0.0",
+      description:
+        "Simple email sender API - just provide recipient email and content",
+      endpoints: {
+        "POST /api/send-email": {
+          description: "Send an email",
+          required: ["toEmail", "emailContent"],
+          optional: ["subject"],
+          example: {
+            toEmail: "recipient@example.com",
+            emailContent: "Your email content here (can include HTML)",
+            subject: "Optional subject line",
+          },
         },
+        "GET /api/test": "Test email configuration",
+        "GET /api/health": "Health check",
       },
-      "GET /api/test": "Test email configuration",
-      "GET /api/health": "Health check",
-    },
-  });
+    });
+  }
 });
 
 // Error handling middleware
