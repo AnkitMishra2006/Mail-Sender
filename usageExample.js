@@ -4,7 +4,7 @@
 const BASE_URL = "https://mail-sender-snowy.vercel.app";
 
 // Example 1: Basic email sending with fetch
-const sendEmail = async (toEmail, emailContent, subject = null) => {
+const sendEmail = async (toEmail, emailContent, subject = null, fromName = null) => {
   try {
     const response = await fetch(`${BASE_URL}/api/send-email`, {
       method: "POST",
@@ -15,6 +15,7 @@ const sendEmail = async (toEmail, emailContent, subject = null) => {
         toEmail: toEmail,
         emailContent: emailContent,
         subject: subject,
+        fromName: fromName,
       }),
     });
 
@@ -49,7 +50,8 @@ const sendHtmlEmail = async () => {
   return await sendEmail(
     "user@gmail.com",
     htmlContent,
-    "Welcome to our service!"
+    "Welcome to our service!",
+    "Welcome Team"
   );
 };
 

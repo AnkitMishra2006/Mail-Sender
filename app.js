@@ -62,6 +62,12 @@ const emailValidation = [
     .trim()
     .isLength({ max: 200 })
     .withMessage("Subject must be less than 200 characters"),
+
+  body("fromName")
+    .optional()
+    .trim()
+    .isLength({ max: 100 })
+    .withMessage("From name must be less than 100 characters"),
 ];
 
 // Main email sending route
@@ -77,13 +83,13 @@ app.post("/api/send-email", emailLimiter, emailValidation, async (req, res) => {
       });
     }
 
-    const { toEmail, emailContent, subject } = req.body;
+    const { toEmail, emailContent, subject, fromName } = req.body;
 
     // Create transporter and send email
     const transporter = createTransporter();
 
     const mailOptions = {
-      from: `"Email Sender App" <${process.env.EMAIL_USER}>`,
+      from: `"${fromName || "Email Sender App"}" <${process.env.EMAIL_USER}>`,
       to: toEmail,
       subject: subject || "Message from Email Sender App",
       html: emailContent,
@@ -182,11 +188,12 @@ app.get("/", (req, res) => {
         "POST /api/send-email": {
           description: "Send an email",
           required: ["toEmail", "emailContent"],
-          optional: ["subject"],
+          optional: ["subject", "fromName"],
           example: {
             toEmail: "recipient@example.com",
             emailContent: "Your email content here (can include HTML)",
             subject: "Optional subject line",
+            fromName: "Your Name or Company",
           },
         },
         "GET /api/test": "Test email configuration",

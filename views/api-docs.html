@@ -207,7 +207,7 @@
                 <div class="feature-card">
                     <h3>🚀 Simple API</h3>
                     <p>Just 2 required parameters: <code>toEmail</code> and <code>emailContent</code>. Optional subject
-                        line supported.</p>
+                        line and custom sender name supported.</p>
                 </div>
 
                 <div class="feature-card">
@@ -243,7 +243,7 @@
                     </div>
                     <p><strong>Description:</strong> Send an email to any recipient</p>
                     <p><strong>Required:</strong> <code>toEmail</code>, <code>emailContent</code></p>
-                    <p><strong>Optional:</strong> <code>subject</code></p>
+                    <p><strong>Optional:</strong> <code>subject</code>, <code>fromName</code></p>
 
                     <div class="code-block">
                         curl -X POST {{BASE_URL}}/api/send-email \
@@ -251,7 +251,8 @@
                         -d '{
                         "toEmail": "recipient@example.com",
                         "emailContent": "&lt;h1&gt;Hello!&lt;/h1&gt;&lt;p&gt;This is a test email.&lt;/p&gt;",
-                        "subject": "Test Email"
+                        "subject": "Test Email",
+                        "fromName": "Your Name or Company"
                         }'</div>
                 </div>
 
